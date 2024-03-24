@@ -5,7 +5,7 @@
     <a href="https://github.com/monp4r/lz78_varlen_compressor/commits"><img src="https://img.shields.io/github/last-commit/monp4r/lz78_varlen_compressor" alt="Last commit"></a>
 </p>
 
-> Created by **Juan Francisco Montero** (<https://github.com/monp4r/>)
+> Created by **Juan Francisco Montero** (<https://github.com/monp4r/>) and **Luis Alfonso Martínez**
 
 ## Introduction
 Welcome to the LZ78 Variable-Length Compressor, where efficiency meets simplicity in the world of text file compression. 
