@@ -58,7 +58,6 @@ Please note that in the process of compressing a text file, the default format o
 
 Finally, it is advisable to save the content of each encoding or decoding operation you carry out, in order to avoid losing the content.
 
-
 ## How it works?:
 
 The LZ78 Variable-Length Compressor works by analyzing the input text file and identifying recurring patterns. Here's a step-by-step overview of the compression and decompression process:
@@ -99,8 +98,6 @@ As we can see, the presence of dictionary entries greatly facilitates decoding, 
 
 </div >
 
-## How it really works?:
-
 ## Evaluation of Dictionary-based Compressor Performance:
 
 To assess the performance of our dictionary-based compressor, we conducted compression tests on several books from the Gutenberg Project, including Philosophiae Naturalis Principia Mathematica, War and Peace, as well as the file of the book El ingenioso hidalgo don Quijote de la Mancha provided in the virtual campus of the subject.
@@ -121,9 +118,29 @@ We've created a comparative table to illustrate the tests conducted with the pro
 
 Upon analyzing these data, we observe that the dictionary-based compressor shows significant efficiency in most cases, with compression factors ranging between 0.003 and 0.493. This suggests that the existence of patterns in the character string of the text significantly contributes to the compression capability. However, we also note that the compression factor varies widely depending on the file content, as evidenced by the file "a_reptidas.txt," which contains repeated characters, resulting in extremely efficient compression. In conclusion, these results support the effectiveness of the dictionary-based compressor and underscore the importance of considering the content nature when evaluating data compression techniques.
 
-## Future Development:
+## Future Development
 
-## Acknowledgements:
+Here are some potential areas for future development of the LZ78 Variable-Length Compressor:
+
+1. **Enhanced Compression Algorithms:** Explore and implement advanced compression algorithms to improve the compression ratio and efficiency of the compressor.
+
+2. **Graphical User Interface (GUI):** Develop a user-friendly GUI application for the LZ78 Variable-Length Compressor, allowing users to compress and decompress files with ease.
+
+3. **Optimization Techniques:** Investigate optimization techniques to optimize the performance of the compressor, making it faster and more efficient.
+
+4. **Support for Additional File Formats:** Extend the compressor to support compression and decompression of various file formats, beyond just text files.
+
+5. **Error Handling and Recovery:** Implement robust error handling mechanisms and recovery strategies to handle errors gracefully during compression and decompression processes.
+
+## Acknowledgements
+
+I extend my sincere gratitude to the following individuals and entities for their invaluable support and contributions to the development of the LZ78 Variable-Length Compressor:
+
+- **Automatic Information Processing Teacher:** I express our heartfelt thanks to our Automatic Information Processing teacher for their guidance, mentorship, and encouragement throughout the development of this project.
+
+- **Python Software Foundation:** For developing and maintaining the Python programming language, which serves as the foundation for this project.
+
+- **Spyder IDE:** For providing an intuitive and powerful integrated development environment for Python programming, facilitating the development process of the LZ78 Variable-Length Compressor.
 
 ## References:
 Angel, P. (2022, April 28). Un Poco de Historia: Algoritmos LZ77, LZ78 y lzw - INCUBAWEB - software y web 2.0. Incubaweb. [https://www.incubaweb.com/un-poco-de-historia-algoritmos-lz77-lz78-y-lzw/](https://www.incubaweb.com/un-poco-de-historia-algoritmos-lz77-lz78-y-lzw/)
