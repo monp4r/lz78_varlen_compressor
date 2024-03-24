@@ -10,7 +10,7 @@
 ## Introduction
 Welcome to the LZ78 Variable-Length Compressor, where efficiency meets simplicity in the world of text file compression. This powerful tool utilizes the LZ78 algorithm with variable-length encoding, providing optimal compression ratios while maintaining ease of use.
 
-### Features:
+## Features:
 - **Efficient Compression:** Utilizes advanced LZ78 algorithm to achieve high compression ratios.
 - **Up to 12-Bit Support:** Precision handling of variable-length encoding, accommodating up to 12 bits for optimal compression.
 - **User-Friendly Interface:** Simple command-line interface for seamless compression operations.
