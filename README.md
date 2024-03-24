@@ -36,7 +36,7 @@ Ready to experience lightning-fast compression without compromising quality? Let
 
 ## Caution:
 
-## Testing:
+## Evaluation of Dictionary-based Compressor Performance:
 
 To assess the performance of our dictionary-based compressor, we conducted compression tests on several books from the Gutenberg Project, including Philosophiae Naturalis Principia Mathematica, War and Peace, as well as the file of the book El ingenioso hidalgo don Quijote de la Mancha provided in the virtual campus of the subject.
 
