@@ -3,7 +3,8 @@ Compresor utilizando Codificación LZ78 de Longitud Variable (12 bits).
 
 Este programa implementa compresión LZ78 con un codificador de longitud variable capaz de manejar hasta 12 bits.
 
-Autor:               Juan Francisco Montero (Aka: monp4r)
+Autores:               Juan Francisco Montero (Aka: monp4r)
+                       Luis Alfonso Martínez
 
 Fecha de inicio:       27/10/2021
 Fecha de finalización: 30/12/2021
