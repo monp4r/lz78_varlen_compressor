@@ -28,10 +28,9 @@ To get started with the LZ78 Variable-Length Compressor using the Spyder IDE, fo
 
 1. **Clone the Repository:**
    Clone the LZ78 Variable-Length Compressor repository to your local machine using Git. Open a terminal or Git Bash and run the following command:
+   
    ```bash
    git clone https://github.com/monp4r/lz78_varlen_compressor.git
-
-   ## Open the Project in Spyder IDE or with CLI
 
 Open the Spyder IDE (or on python CI) on your local machine. Navigate to the directory where you cloned the LZ78 Variable-Length Compressor repository using the file explorer or terminal.
 
