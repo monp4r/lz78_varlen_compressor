@@ -43,6 +43,6 @@ Ready to experience lightning-fast compression without compromising quality? Let
 ## References:
 Angel, P. (2022, April 28). Un Poco de Historia: Algoritmos LZ77, LZ78 y lzw - INCUBAWEB - software y web 2.0. Incubaweb. [https://www.incubaweb.com/un-poco-de-historia-algoritmos-lz77-lz78-y-lzw/](https://www.incubaweb.com/un-poco-de-historia-algoritmos-lz77-lz78-y-lzw/)
 
-Hmong.wiki. (n.d.). LZ77 y lz78 Contenidoyeficiencia Teórica [ editar ]. leer wikipedia con nuevo diseño. [https://hmong.es/wiki/LZ77_and_LZ78](https://hmong.es/wiki/LZ77_and_LZ78)
+Hmong.wiki. (n.d.). LZ77 y lz78 Contenido y eficiencia Teórica [https://hmong.es/wiki/LZ77_and_LZ78](https://hmong.es/wiki/LZ77_and_LZ78)
 
 Ignacio, F. M. J. (2020). Computación Matemática Con Python: Introducción Al Lenguaje python para Científicos e Ingenieros. Ediciones Universidad de Valladolid.
