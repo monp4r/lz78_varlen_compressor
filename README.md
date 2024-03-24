@@ -31,17 +31,17 @@ To get started with the LZ78 Variable-Length Compressor using the Spyder IDE, fo
    ```bash
    git clone https://github.com/monp4r/lz78_varlen_compressor.git
 
-   ## Open the Project in Spyder
+   ## Open the Project in Spyder IDE or with CLI
 
-Open the Spyder IDE on your local machine. Navigate to the directory where you cloned the LZ78 Variable-Length Compressor repository using the file explorer or terminal.
+Open the Spyder IDE (or on python CI) on your local machine. Navigate to the directory where you cloned the LZ78 Variable-Length Compressor repository using the file explorer or terminal.
 
 2. **Explore and Run the Code**
 
-Once the project is open in Spyder, you can explore the source code files. The main file, `lz78_varlen_compressor.py`, contains the implementation of the LZ78 Variable-Length Compressor.
+Once the project is open (in Spyder), you can explore the source code files. The main file, `lz78_varlen_compressor.py`, contains the implementation of the LZ78 Variable-Length Compressor.
 
 3. **Run the Compressor**
 
-To compress a text file using the LZ78 Variable-Length Compressor, you can modify the `input_file` variable in the `lz78_varlen_compressor.py` file to specify the path to your input text file. Then, execute the script to run the compressor. You can do this by clicking the green "play" button in the Spyder IDE toolbar or by pressing F5.
+To compress a text file using the LZ78 Variable-Length Compressor, you can select the first option to specify the path to your input text file after executing the script.You can do this by clicking the green "play" button in the Spyder IDE toolbar or by pressing F5 (invoke python.exe in cli).
 
 4. **View Compression Results**
 
@@ -49,12 +49,16 @@ After running the compressor, you can view the compressed output in the console 
 
 5. **Decompress Files (Optional)**
 
-If desired, you can also decompress files using the provided decompression functionality in the `lz78_varlen_compressor.py` file. Follow similar steps to modify the `input_file` variable and run the script to decompress a compressed text file.
+If desired, you can also decompress files using the provided decompression functionality in the `lz78_varlen_compressor.py` file. Follow similar steps to select a different option and run the script to decompress a compressed text file.
 
 By following these steps, you can easily get started with the LZ78 Variable-Length Compressor using the Spyder IDE.
 
-
 ## Caution:
+
+Please note that in the process of compressing a text file, the default format of the text file in question will be '.txt' in this version of the program. This is to avoid possible errors in the program and to maintain the design conception proposed from the beginning of the creation of the program. 
+
+Finally, it is advisable to save the content of each encoding or decoding operation you carry out, in order to avoid losing the content.
+
 
 ## How it works?:
 
