@@ -40,20 +40,23 @@ The LZ78 Variable-Length Compressor utilizes this process to achieve efficient c
 
 ## Example
 
-Suppose we have the following input text: "ABRACADABRA".
+Let's observe the decoding process with this example.
 
-After compression, the LZ78 Variable-Length Compressor generates the following output:
+Given a dictionary and the tuples of a message, it is possible to decode it in an orderly manner to obtain the message. For example, the first entry in the dictionary is A, so its decoding will be A itself. The same applies to the second and third entries in the dictionary, being single letters.
 
-| Index | Phrase     |
-|-------|------------|
-| 0     | A          |
-| 1     | B          |
-| 2     | R          |
-| 3     | AC         |
-| 4     | AD         |
-| 5     | AB         |
+For the fourth entry in the dictionary, it is decoded as AC, and so on for all entries. The final message in this case is the result of concatenating all the entries in the dictionary, for this example it is 'ABRACADABRA'.
 
-This compressed output represents the original text "ABRACADABRA" using a series of indices and phrases, allowing for efficient storage and transmission of the data. Upon decompression, the original text can be reconstructed faithfully.
+As we can see, the presence of dictionary entries greatly facilitates decoding, making it almost trivial. It could happen that we are unaware of the entries in our dictionary and only know the relationship between each tuple and its dictionary index. In this case, the easiest way would be to obtain the entry of each dictionary position similarly to how it was done in the previous example.
+
+| Decoding      | Tuple         | Dictionary[Index] | Dictionary Entry |
+|---------------|---------------|-------------------|------------------|
+| A             | (0,a)         | 1                 | A                |
+| B             | (0,b)         | 2                 | B                |
+| R             | (0,r)         | 3                 | R                |
+| AC            | (1,c)         | 4                 | AC               |
+| AD            | (1,d)         | 5                 | AD               |
+| AB            | (1,b)         | 6                 | AB               |
+| RA            | (3,a)         | 7                 | RA               |
 
 ## How it really works?:
 
