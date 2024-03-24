@@ -24,6 +24,37 @@ Ready to experience lightning-fast compression without compromising quality? Let
 
 ## How it works?:
 
+The LZ78 Variable-Length Compressor works by analyzing the input text file and identifying recurring patterns. Here's a step-by-step overview of the compression and decompression process:
+
+1. **Compression:**
+   - **Building the Dictionary:** The compressor reads the input text file and builds a dictionary of phrases encountered in the text.
+   - **Variable-Length Encoding:** Each phrase in the dictionary is assigned a unique index, and the compressor replaces each occurrence of a phrase with its corresponding index. The indices are encoded using variable-length encoding to optimize storage efficiency.
+   - **Output Generation:** The compressor generates the compressed output, consisting of a sequence of indices representing the phrases in the input text.
+
+2. **Decompression:**
+   - **Dictionary Reconstruction:** During decompression, the compressor reconstructs the dictionary using the indices provided in the compressed file.
+   - **Decoding Indices:** The decompressor reads the sequence of indices from the compressed file and decodes them using variable-length decoding to retrieve the original phrases.
+   - **Output Reconstruction:** As the indices are decoded, the decompressor reconstructs the original text by replacing each index with its corresponding phrase from the dictionary.
+
+The LZ78 Variable-Length Compressor utilizes this process to achieve efficient compression and decompression of text files while maintaining data integrity.
+
+## Example
+
+Suppose we have the following input text: "ABRACADABRA".
+
+After compression, the LZ78 Variable-Length Compressor generates the following output:
+
+| Index | Phrase     |
+|-------|------------|
+| 0     | A          |
+| 1     | B          |
+| 2     | R          |
+| 3     | AC         |
+| 4     | AD         |
+| 5     | AB         |
+
+This compressed output represents the original text "ABRACADABRA" using a series of indices and phrases, allowing for efficient storage and transmission of the data. Upon decompression, the original text can be reconstructed faithfully.
+
 ## How it really works?:
 
 ## Usage:
