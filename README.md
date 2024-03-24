@@ -8,7 +8,11 @@
 > Created by **Juan Francisco Montero** (<https://github.com/monp4r/>)
 
 ## Introduction
-Welcome to the LZ78 Variable-Length Compressor, where efficiency meets simplicity in the world of text file compression. This powerful tool utilizes the LZ78 algorithm with variable-length encoding, providing optimal compression ratios while maintaining ease of use.
+Welcome to the LZ78 Variable-Length Compressor, where efficiency meets simplicity in the world of text file compression. 
+
+Based on the LZ78 lossless data compression algorithm published by Abraham Lempel and Jacob Ziv, it consists of a single executable program that can be used both as a compressor and decompressor, depending on the selected menu options. It provides optimal compression ratios while maintaining ease of use.
+
+The LZ78 Variable-Length Compressor has been developed as the final project for the Automatic Information Processing exam in the Double Degree program in Mathematics and Computer Science at the University of Valladolid.
 
 ## Features:
 - **Efficient Compression:** Utilizes advanced LZ78 algorithm to achieve high compression ratios.
