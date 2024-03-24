@@ -38,6 +38,20 @@ Ready to experience lightning-fast compression without compromising quality? Let
 
 ## Testing:
 
+To assess the performance of our dictionary-based compressor, we conducted compression tests on several books from the Gutenberg Project, including Philosophiae Naturalis Principia Mathematica, War and Peace, as well as the file of the book El ingenioso hidalgo don Quijote de la Mancha provided in the virtual campus of the subject.
+
+We've created a comparative table to illustrate the tests conducted with the program, analyzing the uncompressed size, compressed size, and compression factor of each file. The compression factor is defined as the ratio of the compressed size of a file to its uncompressed size, allowing us to understand the percentage of the original size occupied by the compressed file.
+
+| File                     | Uncompressed Size | Compressed Size | Compression Factor |
+|--------------------------|-------------------|-----------------|--------------------|
+| quijote.txt              | 2100 KB           | 978 KB          | 0.466              |
+| philosophiae_mathematica.txt | 852 KB         | 420 KB          | 0.493              |
+| war_and_peace.txt        | 3400 KB           | 1500 KB         | 0.441              |
+| a_reptidas.txt           | 1000 KB           | 3 KB            | 0.003              |
+| checkmates_data.txt      | 18800 KB          | 3700 KB         | 0.197              |
+
+Upon analyzing these data, we observe that the dictionary-based compressor shows significant efficiency in most cases, with compression factors ranging between 0.003 and 0.493. This suggests that the existence of patterns in the character string of the text significantly contributes to the compression capability. However, we also note that the compression factor varies widely depending on the file content, as evidenced by the file "a_reptidas.txt," which contains repeated characters, resulting in extremely efficient compression. In conclusion, these results support the effectiveness of the dictionary-based compressor and underscore the importance of considering the content nature when evaluating data compression techniques.
+
 ## Future Development:
 
 ## Acknowledgements:
