@@ -1,222 +1,140 @@
 """
-Compressor using Variable Length LZ78 Encoding (12 bits).
+Compresor utilizando Codificación LZ78 de Longitud Variable (12 bits).
 
-This program implements LZ78 compression with a variable-length encoder capable of handling up to 12 bits.
+Este programa implementa compresión LZ78 con un codificador de longitud variable capaz de manejar hasta 12 bits.
 
-Start Date:            27/10/2021
-Completion Date:       30/12/2021
+Autor:               Juan Francisco Montero (Aka: monp4r)
+
+Fecha de inicio:       27/10/2021
+Fecha de finalización: 30/12/2021
 """
 
-
 # IMPORTS:
-#   Importación de librerías y funciones necesarias para la ejecución del programa.
-import os
-import sys
-from bitarray import bitarray
+# Importación de librerías y funciones necesarias para la ejecución del programa.
+import os   # Librería para interactuar con el sistema operativo.
+import sys  # Librería para la manipulación de variables y funciones específicas del intérprete de Python.
+from bitarray import bitarray  # Librería para trabajar con secuencias de bits eficientemente.
 
 # Declaración de constantes.
-MINBITS = 2
-MAXBITS = 12
-LIMBITS = MAXBITS + 1
-TAMBYTE = 8
+MINBITS = 2   # Número mínimo de bits para representar una entrada en el diccionario.
+MAXBITS = 12  # Número máximo de bits para representar una entrada en el diccionario.
+LIMBITS = MAXBITS + 1  # Límite superior de bits permitidos en el diccionario.
+TAMBYTE = 8   # Tamaño de un byte en bits.
+
 
 def rellenar_bitarray_ceros(b, bits): 
     """
-    rellenar_bitarray_ceros(b, bits)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método tiene la función de añadir una serie del carácter '0'
-        al bitarray hasta que tenga un tamaño adecuado de bits, descrito
-        por el programador en la llamada a esta función.
-    
-    Parámetros y tipos de entrada:
-    ------------------------------
-        b : bitarray
-            Representa el array de bits empleado para realizar la codificación.
-        bits : número entero
-            Representa el tamaño de la cadena de carácteres denominada texto.
-            
-    Parámetros y tipos de salida:
-    -----------------------------
-        b : bitarray
-            Representa el array de bits empleado para realizar la codificación.
+    Rellena un bitarray con ceros hasta alcanzar una longitud específica.
 
+    Args:
+    - b: Bitarray a rellenar.
+    - bits: Longitud deseada del bitarray.
+
+    Returns:
+    - El bitarray modificado con ceros añadidos al principio si es necesario.
     """
     while(len(b) < bits):
-        
-        b.insert(0, False) #Añadimos ceros mediante esta función.
+        # Añadimos ceros mediante esta función.
+        b.insert(0, False)
         
     return b
 # ------------------------------------------------------------------
-    
 def agregar(bits, arraybits, c):
     """
-    agregar(bits, arraybits, c)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método tiene la labor de añadir, un carácter (número o letra)
-        cualquiera al bitarray que hayamos seleecionado previamente en la 
-        llamada de la función.        
+    Agrega un carácter codificado en binario a un bitarray, rellenando con ceros si es necesario.
 
-    Parámetros y tipos de entrada:
-    ------------------------------
-        bits : número entero
-            Este parámetro describe el número de bits 
-        arraybits : bitarray
-            Describe el array de bits al cual añadiremos el nuevo fragmento
-            de bits.
-        c : número entero
-            Este parámetro describe la posición del número o la letra en 
-            el diccionario.
+    Args:
+    - bits: Longitud deseada del bitarray.
+    - arraybits: Bitarray principal al que se añadirá el carácter codificado.
+    - c: Carácter a codificar en binario y añadir al bitarray principal.
 
-    Parámetros y tipos de salida:
-    -----------------------------
-        No dispone de ellos.
-        
+    Returns:
+    - None
     """
-    ba = bitarray()
-    
-    aux = format(c, 'b') # Formateamos la posición del carácter a binario.
-    
-    ba.extend(aux)
-    
-    ba = rellenar_bitarray_ceros(ba, bits)
-    
-    arraybits.extend(ba) # Añadimos el bitarray auxiliar al principal.
-# ------------------------------------------------------------------   
-
-#-------------------------------------------------------------------------->
+    ba = bitarray()  # Inicializamos un nuevo bitarray
+    aux = format(c, 'b')  # Formateamos la posición del carácter a binario
+    ba.extend(aux)  # Extendemos el bitarray con la representación binaria del carácter
+    ba = rellenar_bitarray_ceros(ba, bits)  # Rellenamos con ceros si es necesario
+    arraybits.extend(ba)  # Añadimos el bitarray auxiliar al principal
+# ------------------------------------------------------------------
 def sumar_bits(i, bits_exp):
     """
-    sumar_bits(i, bits_exp)
+    Incrementa la cantidad de bits necesarios para representar un número en binario si es necesario.
 
-    Objetivo de la función:
-    -----------------------
-        Este método tiene que sumar un bit en al escribir los carácteres
-        si es necesario, según la posición que tienen en el diccionario.
-    
-    Parámetros y tipos de entrada:
-    ------------------------------
-        i : número entero
-            Representa la última posición del diccionario coincidente en
-            cada entrada de nuevos carácteres.
-        bits_exp : número entero
-            Representa el número de bits empleado en la compresión y descompresión.
-            
-    Parámetros y tipos de salida:
-    -----------------------------
-        bits_exp : número entero
-            Representa el número de bits empleado en la compresión y descompresión.
+    Args:
+    - i: Número entero a comparar.
+    - bits_exp: Cantidad actual de bits necesarios para representar i en binario.
 
+    Returns:
+    - La cantidad de bits necesarios actualizada si i es igual al máximo valor representable con los bits actuales, de lo contrario, la cantidad de bits no se modifica.
     """
-    max_b = (2 ** bits_exp) - 1
+    max_b = (2 ** bits_exp) - 1  # Calculamos el máximo valor representable con la cantidad actual de bits
     
-    if(i == max_b):
-        bits_exp += 1
+    if i == max_b:
+        bits_exp += 1  # Incrementamos la cantidad de bits si i alcanza el máximo valor representable
     
     return bits_exp
-# ------------------------------------------------------------------  
-    
+# ------------------------------------------------------------------      
 def vaciar_diccionario(bits_exp, diccionario):
     """
-    vaciar_diccionario(bits_exp, diccionario)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método tiene como objetivo el reinicio del diccionario cuando
-        el número de bits supera el umbral establecido (LIMBITS).
-        
-    Parámetros y tipos de entrada:
-    ------------------------------
-        bits_exp : número entero
-            Representa el número de bits empleado en la compresión y descompresión.
-        diccionario : dictionary
-            Describe el diccionario mediante el cual se creará y vaciará 
-            cuando se lleve a cabo la compresión y descompresión de datos.
+    Vacía un diccionario si la cantidad de bits alcanza un límite especificado.
 
-            
-    Parámetros y tipos de salida:
-    -----------------------------
-        diccionario : dictionary
-            Describe el diccionario mediante el cual se creará y vaciará 
-            cuando se lleve a cabo la compresión y descompresión de datos.
+    Args:
+    - bits_exp: Cantidad de bits actual.
+    - diccionario: Diccionario que se desea vaciar.
 
+    Returns:
+    - None
     """
-    if(bits_exp == LIMBITS): 
-        
-        diccionario.clear()
+    if bits_exp == LIMBITS:  # Verifica si la cantidad de bits es igual al límite definido
+        diccionario.clear()  # Vacía el diccionario si se cumple la condición
 # ------------------------------------------------------------------  
-
 def comprimir(texto):
     """
-    comprimir(texto)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método es de los más importantes de este programa. Dicho método
-        aporta la funcionalidad de la compresión real de una cadena de 
-        carácteres (texto) en una variable (a) que contendrá la codificación
-        binaria. Para ello, se hace uso de los diferentes métodos satélite
-        presentes en este programa.
+    Realiza la compresión de un texto utilizando el algoritmo LZ78 sin pérdidas.
 
-        El desarrollo de este método sigue el algoritmo de compresión sin
-        pérdidas LZ78. Este se explicará con más detalle en la pertinente
-        documentación facilitada (memoria).
-        
-    Parámetros y tipos de entrada:
-    ------------------------------
-        texto : cadena de carácteres
-            Representa el texto que queremos comprimir.
-            
-    Parámetros y tipos de salida:
-    -----------------------------
-        a : bitarray
-            Representa la cadena de bits que contiene la codificación del texto
-            mencionado anteriormente.
+    Args:
+    - texto: Cadena de caracteres que se desea comprimir.
 
+    Returns:
+    - a: Objeto bitarray que contiene la codificación binaria del texto comprimido.
     """
-    
-    # Cada acceso al diccionario se realiza de la siguiente forma:
-    # diccionario[...] = {índice, carácter}
-    #   el índice es un contador previo a la entrada del diccionario, y el carácter
-    #   en concreto se une con la cadena representada por dictionary[indice]
+
+    # Inicialización del diccionario
     diccionario = dict()
     
-    # Crear array de bits
+    # Creación del objeto bitarray
     a = bitarray()
 
     len_texto = len(texto)
 
-    last_matching_index = 0 # última posición leída del bitarray
-    next_available_index = 1 # siguiente entrada al diccionario, posición  
+    last_matching_index = 0 # última posición leída del texto
+    next_available_index = 1 # siguiente entrada al diccionario
     
     bits_exp = MINBITS
 
-    # Establecemos los datos necesarios para realizar la compresión (CABEZERA):
-    #   Número inicial de lectura de bits y el máximo de bits que se pueden emplear.
-    agregar(TAMBYTE, a, MINBITS)
-    agregar(TAMBYTE, a, MAXBITS)
-    
-    # Se recorre todo el texto del fichero correspondiente.
-    while(last_matching_index < len_texto): 
+    # Configuración de los datos iniciales de la compresión
+    agregar(TAMBYTE, a, MINBITS)  # Número inicial de bits de lectura
+    agregar(TAMBYTE, a, MAXBITS)  # Máximo de bits permitidos
+
+    # Proceso de compresión
+    while last_matching_index < len_texto: 
     
         c = texto[last_matching_index]
 
-        if(c in diccionario):
+        if c in diccionario:
             
             band = True
             
-            while(c in diccionario and band):
+            while c in diccionario and band:
                 
-                nodo = diccionario[c] # Es la posición del índice del diccionario.
+                nodo = diccionario[c]
                 
                 last_matching_index += 1 
                 
-                if(last_matching_index < len_texto):
+                if last_matching_index < len_texto:
                     
-                    c += texto[last_matching_index] # añadimos caracteres
+                    c += texto[last_matching_index]  # Añadimos caracteres
                     
                 else:
                     
@@ -226,18 +144,17 @@ def comprimir(texto):
             
             diccionario[c] = next_available_index 
          
-            # Formateamos el carácter introducido        
+            # Codificamos el carácter introducido
             agregar(bits_exp, a, nodo) 
             
         else:
             
             diccionario[c] = next_available_index
             
-            # Añadimos el carácter introducido (Numérico)
+            # Codificamos el carácter introducido como 0 (Numérico)
             agregar(bits_exp, a, 0)
             
-            
-        # Añadimos el carácter introducido (Letra)
+        # Codificamos el carácter introducido (Letra)
         agregar(TAMBYTE, a, ord(texto[last_matching_index]))
         
         next_available_index += 1
@@ -246,88 +163,45 @@ def comprimir(texto):
                 
         vaciar_diccionario(bits_exp, diccionario) 
                 
-        last_matching_index += 1  # avanzamos posición en la lectura del texto
+        last_matching_index += 1  # Avanzamos a la siguiente posición en el texto
 
     return a
 # ------------------------------------------------------------------
-
 def extraer_simbolo(c, bits_exp, k, cad, len_cod, cod):
     """
-    extraer_simbolo(c, bits_exp, k, cad, len_cod, cod)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método únicamente se emplea en el método #descomprimir(codificacion).
-        El objetivo de este es el de extraer una cadena de carácteres, ya sea 
-        una letra o un número, para incluirlo en el diccionario de la 
-        descodificación y finalmente en la cadena de carácteres que queremos
-        descomprimir (texto).
+    Extrae un símbolo de un bitarray durante el proceso de descompresión.
 
-    Parámetros y tipos de entrada:
-    ------------------------------
-        c : número entero
-            Representa un contador empleado en el método.
-        bits_exp : número entero
-            Representa el número de bits empleado en la descompresión.
-        k : número entero
-            Representa la posición del bitarray en el método principal (descompresión).
-        cad : cadena de carácteres
-            Representa una cadena de carácteres auxiliar .
-        len_cod : número entero
-            Representa el número de carácteres (0s y 1s) presentes en el bitarray
-            codificado.
-        cod : bitarray
-            Representa la cadena de bits que contiene la codificación del texto
-            comprimido mediante el algoritmo pertinente.
+    Args:
+    - c: Número entero, contador empleado en el método.
+    - bits_exp: Número entero, cantidad de bits empleados en la descompresión.
+    - k: Número entero, posición del bitarray en el método principal (descompresión).
+    - cad: Cadena de caracteres auxiliar.
+    - len_cod: Número entero, cantidad de caracteres (0s y 1s) presentes en el bitarray codificado.
+    - cod: Bitarray, cadena de bits que contiene la codificación del texto comprimido.
 
-    Parámetros y tipos de salida:
-    -----------------------------
-        cad : bitarray
-            Idem.
-        c : número entero
-            Idem.
-        k : número entero
-            Idem.
-
+    Returns:
+    - cad: Bitarray, cadena de bits actualizada.
+    - c: Número entero, contador actualizado.
+    - k: Número entero, posición del bitarray actualizada.
     """
     
-    for c in range(bits_exp):
+    for _ in range(bits_exp):
         
-        if(k < len_cod):
+        if k < len_cod:
             cad += str(int(cod[k]))
             k += 1
         
     return cad, c, k
-# ------------------------------------------------------------------  
-    
+# ------------------------------------------------------------------
 def descomprimir(codificacion):
     """
-    descomprimir(codificacion)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método es de los más importantes de este programa. Dicho método
-        aporta la funcionalidad de la descompresión real de una cadena de 
-        bits (codificación) en una variable (texto) que contendrá la cadena
-        de carácteres descomprimida orignalmente.
-        Para ello, se hace uso de los diferentes métodos satélite
-        presentes en este programa.
+    Realiza la descompresión de una cadena de bits utilizando el algoritmo LZ78.
 
-        El desarrollo de este método sigue el algoritmo de compresión sin
-        pérdidas LZ78. Este se explicará con más detalle en la pertinente
-        documentación facilitada (memoria).
-        
-    Parámetros y tipos de entrada:
-    ------------------------------
-        codificacion : bitarray
-            Representa la cadena de bits que contiene la codificación del texto
-            comprimido mediante el algoritmo pertinente.
-            
-    Parámetros y tipos de salida:
-    -----------------------------
-        texto : cadena de carácteres
-            Representa el texto que queremos descomprimir.
+    Args:
+    - codificacion: Bitarray que contiene la codificación del texto comprimido.
 
+    Returns:
+    - texto: Cadena de caracteres descomprimida.
     """
     diccionario = dict()
     
@@ -341,7 +215,7 @@ def descomprimir(codificacion):
     
     len_cod = len(codificacion)
  
-    while(k < len_cod):
+    while k < len_cod:
         
         cad = ''
         
@@ -349,7 +223,7 @@ def descomprimir(codificacion):
          
         cad, c, k = extraer_simbolo(c, bits_exp, k, cad, len_cod, codificacion) # Extraemos un número
         
-        cad_int = int(cad, base = 2)
+        cad_int = int(cad, base=2)
                 
         i += 1
         
@@ -361,12 +235,12 @@ def descomprimir(codificacion):
         
         cad, c, k = extraer_simbolo(c, TAMBYTE, k, cad, len_cod, codificacion) # Extraemos una letra
         
-        # Comprobamos que los números tengan o no letras asociadas a los mismos
-        if(k < len_cod): 
+        # Comprobamos si los números tienen o no letras asociadas
+        if k < len_cod: 
         
-            letra = chr(int(cad, base = 2))
+            letra = chr(int(cad, base=2))
 
-            if(cad_int != 0):                   
+            if cad_int != 0:                   
                 diccionario[j] = diccionario[cad_int] + letra    
             else:
                 diccionario[j] = letra
@@ -379,40 +253,23 @@ def descomprimir(codificacion):
 
     return texto
 # ------------------------------------------------------------------
-
 def compresion(archivo_texto, archivo_lz78):
     """
-    compresion(archivo_texto, archivo_lz78)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método tiene la tarea de comprobar que los ficheros introducidos
-        por parte del usuario en el método #menu_compresion() tienen un formato
-        válido. Por otro lado, se realiza la compresión del archivo de texto
-        extrayendo sus datos en bruto, se comprimen estos datos creando un
-        fichero binario (con extensión .lz78 por defecto) comprimido.
-    
-    Parámetros y tipos de entrada:
-    ------------------------------
-        archivo_texto : cadena de carácteres
-            Representa el nombre o ruta del archivo de texto que queremos comprimir.
-        archivo_lz78 : cadena de carácteres
-            Representa el nombre del archivo binario comprimido que queremos crear.
-            
-    Parámetros y tipos de salida:
-    -----------------------------
-        archivo_lz78 : cadena de carácteres
-            Representa el nombre del archivo binario comprimido que queremos crear.
-            Se ha considerado que es un parámetro de salida pues puede que la 
-            extensión del archivo cambie si el usuario la introduce incorrectamente.
+    Comprime un archivo de texto utilizando el algoritmo LZ78.
 
+    Args:
+    - archivo_texto: Cadena de caracteres, nombre o ruta del archivo de texto que se desea comprimir.
+    - archivo_lz78: Cadena de caracteres, nombre del archivo binario comprimido que se desea crear.
+
+    Returns:
+    - archivo_lz78: Cadena de caracteres, nombre del archivo binario comprimido creado.
     """
     print("\n\tComprimiendo fichero...")
     
     texto = ''
     
     try: 
-        # Sacamos la extensión del fichero solicitado
+        # Verificamos la extensión del archivo de texto
         ext_txt = os.path.splitext(archivo_texto)[1]
         
         if ext_txt != '.txt':
@@ -423,50 +280,35 @@ def compresion(archivo_texto, archivo_lz78):
         print("\nNo se ha podido abrir el fichero de texto.")
         sys.exit(1)
     
-    # Abrimos el fichero y cargamos los datos en una variable
+    # Abrimos el archivo de texto y cargamos los datos en una variable
     with open(archivo_texto, 'r', encoding='utf-8') as fo:        
         texto = fo.read()
         
     payload = comprimir(texto)
     
+    # Verificamos la extensión del archivo de salida
     ext_lz = os.path.splitext(archivo_lz78)[1]
     
     if ext_lz != ".lz78":
-        archivo_lz78 = os.path.splitext(archivo_lz78)[0]+ ".lz78"
+        archivo_lz78 = os.path.splitext(archivo_lz78)[0] + ".lz78"
           
     with open(archivo_lz78, 'wb') as f1:
         payload.tofile(f1)
         
     print("\n\t¡Compresión completada!")
     input("\tPulse <Intro> para continuar")
+    return archivo_lz78
 # ------------------------------------------------------------------
-
 def descompresion(archivo_lz78, archivo_texto):
     """
-    descompresion(archivo_texto, archivo_lz78)
-    
-    Objetivo de la función:
-    -----------------------
-        Este método tiene la tarea de comprobar que los ficheros introducidos
-        por parte del usuario en el método #menu_descompresion() tienen un formato
-        válido. Por otro lado, se realiza la descompresión del archivo binario
-        extrayendo sus datos en bruto, se descomprimen dichos datos creando un
-        fichero de texto (con extensión .txt por defecto) con la información
-        original.
-    
-    Parámetros y tipos de entrada:
-    ------------------------------
-        archivo_lz78 : cadena de carácteres
-            Representa el nombre o ruta del archivo binario que queremos descomprimir.
-        archivo_texto : cadena de carácteres
-            Representa el nombre del archivo de texto que queremos recuperar.
-            
-    Parámetros y tipos de salida:
-    -----------------------------
-        archivo_lz78 : cadena de carácteres
-            Representa el nombre del archivo binario comprimido que queremos crear.
-            Se ha considerado que es un parámetro de salida pues puede que la 
-            extensión del archivo cambie si el usuario la introduce incorrectamente.
+    Descomprime un archivo binario utilizando el algoritmo LZ78.
+
+    Args:
+    - archivo_lz78: Cadena de caracteres, nombre o ruta del archivo binario que se desea descomprimir.
+    - archivo_texto: Cadena de caracteres, nombre del archivo de texto que se desea recuperar.
+
+    Returns:
+    - archivo_lz78: Cadena de caracteres, nombre del archivo binario comprimido que se ha descomprimido.
     """
     print("\n\tDesomprimiendo fichero...")
     
@@ -487,40 +329,25 @@ def descompresion(archivo_lz78, archivo_texto):
     with open(archivo_lz78,'rb') as fo:
         codificacion.fromfile(fo)
         
-    payload = descomprimir(codificacion)
+    texto_descomprimido = descomprimir(codificacion)
     
     ext_txt = os.path.splitext(archivo_texto)[1]
     
-    if ext_txt != ".lz78":
+    if ext_txt != ".txt":
         archivo_texto = os.path.splitext(archivo_texto)[0] + ".txt"
         
     with open(archivo_texto, 'w') as ft:
-        ft.write(payload)
+        ft.write(texto_descomprimido)
         
     print("\n\t¡Descompresión completada!")
     input("\tPulse <Intro> para continuar")
 # ------------------------------------------------------------------
-        
 def menu():
     """
-    menu()
-    
-    Objetivo de la función:
-    -----------------------
-        Este método se encarga de mostrar en pantalla una lista con las
-        diferentes opciones que se pueden elegir en el menú principal de
-        la aplicación. Asimismo, solicita por pantalla la opción elegida por
-        el usuario.
-        
-    Parámetros y tipos de entrada:
-    ------------------------------
-        No dispone de ellos.
+    Muestra un menú con opciones para que el usuario elija y solicita la opción elegida.
 
-    Parámetros y tipos de salida:
-    -----------------------------
-        op : cadena de carácteres
-            Retorna la opción elegida por parte del usuario, como cadena de carácteres.
-
+    Returns:
+    - op: Cadena de caracteres, opción elegida por el usuario.
     """
     print("_________________________________________________________________________\n")
     print("\n\tMENÚ COMPRESOR LZ78")
@@ -533,29 +360,14 @@ def menu():
 
     return op
 # ------------------------------------------------------------------
-
 def menu_compresion():
     """
-    menu_compresion()
-    
-    Objetivo de la función:
-    -----------------------
-        Este método se encarga de pedir por pantalla al usuario el nombre o ruta 
-        del fichero de texto que desea comprimir, así como el nombre del 
-        fichero binario comprimido. Este método devolverá el método 
-        #compresion(input_file, output_file), donde ser realizará la compresión
-        del fichero correspondiente.
+    Solicita al usuario el nombre o ruta del archivo de texto que desea comprimir
+    y el nombre del archivo binario comprimido. Luego, llama a la función de compresión.
 
-    Parámetros y tipos de entrada:
-    ------------------------------
-        No dispone de ellos.
-    
-    Parámetros y tipos de salida:
-    -----------------------------
-        compresion(input_file, output_file):
-            Este método retorna otra función, la cual realiza la compresión
-            del fichero de texto introducido al fichero binario solicitado.
-        
+    Returns:
+    - compresion(input_file, output_file): Función que realiza la compresión del archivo de texto
+                                            introducido al archivo binario solicitado.
     """
     print("\n\tCOMPRESIÓN")
     print("\t──────────")
@@ -566,28 +378,14 @@ def menu_compresion():
     
     return compresion(input_file, output_file)
 # ------------------------------------------------------------------
-
 def menu_descompresion():
     """
-    menu_descompresion()
-    
-    Objetivo de la función
-    ----------------------
-        Este método se encarga de pedir por pantalla al usuario el nombre o ruta 
-        del fichero binario (con extensión .lz78) que desea comprimir, así como
-        el nombre del fichero de texto descomprimido. Este método devolverá el método 
-        #descompresion(input_file, output_file), donde ser realizará la descompresión
-        del fichero correspondiente.
+    Solicita al usuario el nombre o ruta del archivo binario (.lz78) que desea descomprimir
+    y el nombre del archivo de texto descomprimido. Luego, llama a la función de descompresión.
 
-    Parámetros y tipos de entrada
-    -----------------------------
-        No dispone de ellos.
-    
-    Parámetros y tipos de salida
-    ----------------------------
-        Este método retorna otra función, la cual realiza la descompresión
-        del fichero binario introducido al fichero de texto solicitado.
-            
+    Returns:
+    - descompresion(input_file, output_file): Función que realiza la descompresión del archivo binario
+                                               introducido al archivo de texto solicitado.
     """
     print("\n\tDESCOMPRESIÓN")
     print("\t─────────────")
@@ -598,72 +396,31 @@ def menu_descompresion():
     
     return descompresion(input_file, output_file)
 # ------------------------------------------------------------------
-
 def despedida():
     """
-    despedida()
-    
-    Objetivo de la función
-    ----------------------
-        Este método se encarga de mostrar por pantalla un mensaje de despedida al 
-        usuario, comunicando a este último la finalización de la ejecución del 
-        programa.
+    Muestra un mensaje de despedida al usuario, indicando la finalización del programa.
 
-    Parámetros y tipos de entrada
-    -----------------------------
-        No dispone de ellos.
-    
-    Parámetros y tipos de salida
-    ----------------------------
-        No retorna ningún parámetro (None).
-        
+    Returns:
+    - None
     """
     print("\n\tFIN DE PROGRAMA")
     print("\n_________________________________________________________________________\n")
 # ------------------------------------------------------------------
-
 def fallo_introducir():
     """
-    fallo_introducir()
-    
-    Objetivo de la función
-    ----------------------
-        Este método muestra en pantalla un mensaje de error, comunicando al usuario
-        que ha introducido un valor erróneo por teclado en cualquier parte del
-        programa, excepto en los casos en los que se desea emitir un mensaje acorde
-        con una situación concreta.
+    Muestra un mensaje de error al usuario indicando que ha introducido un valor erróneo por teclado.
 
-    Parámetros y tipos de entrada
-    -----------------------------
-        No dispone de ellos.
-    
-    Parámetros y tipos de salida
-    ----------------------------
-        No retorna ningún parámetro (None).
-        
+    Returns:
+    - None
     """
     print("\n\t¡ENTRADA ERRÓNEA! Volviendo al Menú Principal ...\n")
 # ------------------------------------------------------------------
-
 def main():
     """
-    main()
-    
-    Objetivo de la función
-    ----------------------
-        Este método será lo primero que se ejecute en nuestro programa.
-        A partir del mismo, se invocarán al resto de elementos del programa.
-        Esencialmente, este subprograma nos da la posibilidad de comprimir o 
-        descomprimir un archivo de texto o binario, respectivamente.
-    
-    Parámetros y tipos de entrada
-    -----------------------------
-        No dispone de ellos.
-    
-    Parámetros y tipos de salida
-    ----------------------------
-        No dispone de ellos.
-        
+    Función principal que inicia el programa y gestiona las opciones del usuario.
+
+    Returns:
+    - None
     """
     op = ''
 
@@ -680,9 +437,7 @@ def main():
         else:  
             fallo_introducir()
 # ------------------------------------------------------------------
-
-# Inicializamos el programa siguiendo la recomendación del profesor
+# Inicializamos el programa llamando a la función principal.
 if __name__ == '__main__':
     main()
-    
-# ------------------------- FIN DE PROGRAMA
+# -------------------------------------------------- FIN DE PROGRAMA
