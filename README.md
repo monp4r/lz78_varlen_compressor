@@ -48,6 +48,8 @@ For the fourth entry in the dictionary, it is decoded as AC, and so on for all e
 
 As we can see, the presence of dictionary entries greatly facilitates decoding, making it almost trivial. It could happen that we are unaware of the entries in our dictionary and only know the relationship between each tuple and its dictionary index. In this case, the easiest way would be to obtain the entry of each dictionary position similarly to how it was done in the previous example.
 
+<div align="center">
+
 | Decoding      | Tuple         | Dictionary[Index] | Dictionary Entry |
 |---------------|---------------|-------------------|------------------|
 | A             | (0,a)         | 1                 | A                |
@@ -57,6 +59,8 @@ As we can see, the presence of dictionary entries greatly facilitates decoding, 
 | AD            | (1,d)         | 5                 | AD               |
 | AB            | (1,b)         | 6                 | AB               |
 | RA            | (3,a)         | 7                 | RA               |
+
+</div >
 
 ## How it really works?:
 
