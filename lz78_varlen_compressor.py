@@ -10,7 +10,6 @@ Fecha de finalización: 30/12/2021
 """
 
 # IMPORTS:
-# Importación de librerías y funciones necesarias para la ejecución del programa.
 import os   # Librería para interactuar con el sistema operativo.
 import sys  # Librería para la manipulación de variables y funciones específicas del intérprete de Python.
 from bitarray import bitarray  # Librería para trabajar con secuencias de bits eficientemente.
