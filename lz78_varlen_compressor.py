@@ -20,7 +20,6 @@ MAXBITS = 12  # Número máximo de bits para representar una entrada en el dicci
 LIMBITS = MAXBITS + 1  # Límite superior de bits permitidos en el diccionario.
 TAMBYTE = 8   # Tamaño de un byte en bits.
 
-
 def rellenar_bitarray_ceros(b, bits): 
     """
     Rellena un bitarray con ceros hasta alcanzar una longitud específica.
