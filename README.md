@@ -24,11 +24,11 @@ Ready to experience lightning-fast compression without compromising quality? Let
 
 ## How it works?:
 
+## How it really works?:
+
 ## Usage:
 
 ## Getting Started:
-
-## Acknowledgements:
 
 ## Examples:
 
@@ -39,6 +39,8 @@ Ready to experience lightning-fast compression without compromising quality? Let
 ## Testing:
 
 ## Future Development:
+
+## Acknowledgements:
 
 ## References:
 Angel, P. (2022, April 28). Un Poco de Historia: Algoritmos LZ77, LZ78 y lzw - INCUBAWEB - software y web 2.0. Incubaweb. [https://www.incubaweb.com/un-poco-de-historia-algoritmos-lz77-lz78-y-lzw/](https://www.incubaweb.com/un-poco-de-historia-algoritmos-lz77-lz78-y-lzw/)
